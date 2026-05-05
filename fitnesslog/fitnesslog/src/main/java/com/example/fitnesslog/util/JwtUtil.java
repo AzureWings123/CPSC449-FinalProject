@@ -4,8 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -13,36 +13,45 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    @Value("$(jwt.secret)")
+    @Value("${jwt.secret}")
     private String secret;
 
-    @Value("84000000")
+    @Value("${jwt.expiration}")
     private long expiration;
 
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    // Generate JWT with userId stored in "sub"
+    public String generateToken(String userId, String email) {
         return Jwts.builder()
-                .subject(userDetails.getUsername())
+                .subject(userId)
+                .claim("email", email)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey())
                 .compact();
     }
 
-    public String extractUsername(String token) {
-        return extractClaims(token).getSubject();
+    // Extract userId from "sub"
+    public String extractUserId(String token) {
+        return extractAllClaims(token).getSubject();
     }
 
+    // Extract email from custom claim
+    public String extractEmail(String token) {
+        return extractAllClaims(token).get("email", String.class);
+    }
+
+    // Validate token
     public boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return username.equals(userDetails.getUsername())
-                && !isTokenExpired(token);
+        String extractedEmail = extractEmail(token);
+        return extractedEmail.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
 
-    private Claims extractClaims(String token) {
+    // Parse claims
+    private Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .verifyWith(getSigningKey())
                 .build()
@@ -51,6 +60,6 @@ public class JwtUtil {
     }
 
     private boolean isTokenExpired(String token) {
-        return extractClaims(token).getExpiration().before(new Date());
+        return extractAllClaims(token).getExpiration().before(new Date());
     }
 }

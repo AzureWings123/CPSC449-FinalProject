@@ -3,7 +3,7 @@ package com.example.fitnesslog.service;
 import com.example.fitnesslog.entity.WorkoutSession;
 import com.example.fitnesslog.exception.ForbiddenException;
 import com.example.fitnesslog.exception.ResourceNotFoundException;
-import com.example.fitnesslog.repository.WorkoutRepository;
+import com.example.fitnesslog.repository.WorkoutSessionRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +11,10 @@ import java.util.List;
 
 @Service
 public class WorkoutService {
-    private final WorkoutRepository workoutRepository;
 
-    public WorkoutService(WorkoutRepository workoutRepository) {
+    private final WorkoutSessionRepository workoutRepository;
+
+    public WorkoutService(WorkoutSessionRepository workoutRepository) {
         this.workoutRepository = workoutRepository;
     }
 
@@ -42,12 +43,10 @@ public class WorkoutService {
 
         WorkoutSession current_workout = workoutRepository.findById(id).orElse(null);
 
-        // Status Code 404: Not Found
         if (current_workout == null) {
             throw new ResourceNotFoundException("Workout with id " + id + " not found");
         }
 
-        // Status Code 403: Forbidden
         if (!current_workout.getUserId().equals(userId)) {
             throw new ForbiddenException("This workout belongs to another user");
         }
