@@ -17,8 +17,10 @@ import java.io.IOException;
 
 public class JwtFilter extends OncePerRequestFilter {
 
-    @Autowired private JwtUtil jwtUtil;
-    @Autowired private UserDetailsService userDetailsService;
+    @Autowired
+    private JwtUtil jwtUtil;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -35,10 +37,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
         final String jwt = authHeader.substring(7);
 
-        final String username = jwtUtil.extractUsername(jwt);
+        final String userId = jwtUtil.extractUserId(jwt);
+        final String email = jwtUtil.extractEmail(jwt);
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
             if (jwtUtil.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

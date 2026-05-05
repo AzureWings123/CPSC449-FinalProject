@@ -13,6 +13,8 @@ public class WorkoutSession {
     @Id
     private String id;
 
+    private String userId;
+
     private String exerciseName;
 
     private BigDecimal duration;
