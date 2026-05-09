@@ -27,6 +27,9 @@ When finished, stop the container
 
 `docker stop fitnesslog`
 
+## Demo Video
+[Fitness Log Demo](https://youtu.be/zbFS4d22RK8?si=9kIS6NpvKxfQohlR)
+
 ## Endpoints
 
 Registering a new user
