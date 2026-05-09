@@ -1,5 +1,6 @@
 package com.example.fitnesslog.entity;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,6 +16,7 @@ public class WorkoutSession {
 
     private String userId;
 
+    @NotNull
     private String exerciseName;
 
     private BigDecimal duration;
@@ -23,5 +25,6 @@ public class WorkoutSession {
 
     private Integer reps;
 
+    @NotNull
     private Date date;
 }
