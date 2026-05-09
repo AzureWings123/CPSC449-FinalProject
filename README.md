@@ -6,7 +6,7 @@
 | Dianella Sy    | 884931890 |
 | Saloni Joshi   | 885584714 |
 | Siddharth Vasu | 885505578 |
-| Vanessa Ragan  |           |
+| Vanessa Ragan  | 888419215 |
 
 Registering a new user
 ![POST /api/auth/register](images/register.png)
