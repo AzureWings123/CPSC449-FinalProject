@@ -10,22 +10,13 @@
 
 ## Instructions
 
-First build the Docker image
+To start the app, use the following command to run the Docker containers
 
-`docker build -t fitnesslog:1.0 .`
+`docker compose up --build`
 
-Then use it to run a Docker container for the app
+Then to stop the app, use the following command to stop the containers
 
-`docker run -d --name fitnesslog -p 8085:8085 -e SPRING_DATA_MONGODB_URI=mongodb://host.docker.internal
-:27017/fitnesslog fitnesslog:1.0`
-
-While it's running you can check the logs for debugging
-
-`docker logs fitnesslog`
-
-When finished, stop the container
-
-`docker stop fitnesslog`
+`docker compose down`
 
 ## Demo Video
 [Fitness Log Demo](https://youtu.be/zbFS4d22RK8?si=9kIS6NpvKxfQohlR)
