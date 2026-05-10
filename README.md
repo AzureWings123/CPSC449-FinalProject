@@ -8,6 +8,11 @@
 | Siddharth Vasu | 885505578 |
 | Vanessa Ragan  | 888419215 |
 
+## Requirements
+- Java 21
+- Docker 4.72.0
+- MongoDB
+
 ## Instructions
 
 To start the app, use the following command to run the Docker containers
