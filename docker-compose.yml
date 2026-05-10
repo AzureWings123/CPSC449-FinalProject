@@ -1,0 +1,14 @@
+services:
+  mongo:
+    image: mongo:8
+    container_name: mongo
+
+  fitnesslog:
+    build: .
+    container_name: fitnesslog
+    ports:
+      - "8085:8085"
+    depends_on:
+      - mongo
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/fitnesslog
