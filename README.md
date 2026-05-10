@@ -19,7 +19,7 @@ Then to stop the app, use the following command to stop the containers
 `docker compose down`
 
 ## Demo Video
-[Fitness Log Demo](https://youtu.be/zbFS4d22RK8?si=9kIS6NpvKxfQohlR)
+[Fitness Log Demo](https://youtu.be/iKe2lO-axWc)
 
 ## Endpoints
 
