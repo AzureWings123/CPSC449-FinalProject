@@ -12,12 +12,24 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<String> handleConstraintViolation(ConstraintViolationException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("Validation failed: " + e.getMessage());
+                .body("{ \n\"status\": 400, \n\"message\": field can not be null \n}");
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleWrongUser(IllegalArgumentException e) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(e.getMessage());
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<String> handleWrongUser(NullPointerException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(e.getMessage());
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> handleNoInfo(NullPointerException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(e.getMessage());
     }
 }

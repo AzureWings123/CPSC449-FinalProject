@@ -26,7 +26,7 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email is already registered bruh");
+            throw new NullPointerException("{ \n\"status\": 409, \n\"message\": email is already in use.\n}");
         }
 
         User user = new User();
@@ -40,10 +40,11 @@ public class AuthService {
 
     public AuthResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials!"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "{ \n\"status\": 401, \n\"message\": Invalid credentials!\n}"));
+
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials!");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "{ \n\"status\": 401, \n\"message\": Invalid credentials!\n}");
         }
 
         String token = jwtUtil.generateToken(user.getId(), user.getEmail());

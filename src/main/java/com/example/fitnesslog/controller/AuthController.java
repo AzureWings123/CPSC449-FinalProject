@@ -3,6 +3,7 @@ package com.example.fitnesslog.controller;
 import com.example.fitnesslog.dto.AuthResponse;
 import com.example.fitnesslog.dto.LoginRequest;
 import com.example.fitnesslog.dto.RegisterRequest;
+import com.example.fitnesslog.exception.ResourceNotFoundException;
 import com.example.fitnesslog.repository.UserRepository;
 import com.example.fitnesslog.service.AuthService;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            throw new NullPointerException("{ \n\"status\": 409, \n\"message\": email is already in use.\n}");
         }
 
         AuthResponse response = authService.register(request);

@@ -1,6 +1,7 @@
 package com.example.fitnesslog.controller;
 
 import com.example.fitnesslog.entity.WorkoutSession;
+import com.example.fitnesslog.exception.ResourceNotFoundException;
 import com.example.fitnesslog.repository.WorkoutSessionRepository;
 import com.example.fitnesslog.service.WorkoutService;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class WorkoutController {
     @GetMapping("/{id}")
     public ResponseEntity<WorkoutSession> getWorkoutById(@PathVariable String id) {
         if (!workoutSessionRepository.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            throw new ResourceNotFoundException("{ \n\"status\": 404, \n\"message\": workout with id" + id +" not found.\n}");
         }
 
         return ResponseEntity.ok(workoutService.getWorkoutById(id));
@@ -46,7 +47,7 @@ public class WorkoutController {
                                                         @RequestBody WorkoutSession workout) {
 
         if (!workoutSessionRepository.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            throw new ResourceNotFoundException("{ \n\"status\": 404, \n\"message\": workout with id" + id +" not found.\n}");
         }
 
         return ResponseEntity.ok(workoutService.updateWorkout(id, workout));
@@ -55,7 +56,7 @@ public class WorkoutController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteWorkout(@PathVariable String id) {
         if (!workoutSessionRepository.existsById(id)) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            throw new ResourceNotFoundException("{ \n\"status\": 404, \n\"message\": workout with id" + id +" not found.\n}");
         }
 
         workoutService.deleteWorkout(id);
