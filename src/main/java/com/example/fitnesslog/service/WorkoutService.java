@@ -65,7 +65,7 @@ public class WorkoutService {
         }
 
         if (!current_workout.getUserId().equals(userId)) {
-            throw new ForbiddenException("Only the owner can update the workout - this workout belongs to another user");
+            throw new IllegalArgumentException("Only the owner can update the workout - this workout belongs to another user");
         }
 
         current_workout.setExerciseName(updated_workout.getExerciseName());

@@ -14,4 +14,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body("Validation failed: " + e.getMessage());
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleWrongUser(IllegalArgumentException e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(e.getMessage());
+    }
 }
