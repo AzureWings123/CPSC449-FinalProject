@@ -7,6 +7,7 @@ import com.example.fitnesslog.entity.User;
 import com.example.fitnesslog.repository.UserRepository;
 import com.example.fitnesslog.util.JwtUtil;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -26,7 +27,7 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new NullPointerException("{ \n\"status\": 409, \n\"message\": email is already in use.\n}");
+            throw new NullPointerException("Email is already in use");
         }
 
         User user = new User();
@@ -44,7 +45,7 @@ public class AuthService {
 
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "{ \n\"status\": 401, \n\"message\": Invalid credentials!\n}");
+            throw new AccessDeniedException("Invalid credentials!");
         }
 
         String token = jwtUtil.generateToken(user.getId(), user.getEmail());
