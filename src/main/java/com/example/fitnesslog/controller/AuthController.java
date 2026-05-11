@@ -26,7 +26,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new DataIntegrityViolationException("{ \n\"status\": 409, \n\"message\": email is already in use.\n}");
+            throw new DataIntegrityViolationException("email is already in use");
         }
 
         AuthResponse response = authService.register(request);

@@ -36,7 +36,7 @@ public class WorkoutController {
     @GetMapping("/{id}")
     public ResponseEntity<WorkoutSession> getWorkoutById(@PathVariable String id) {
         if (!workoutSessionRepository.existsById(id)) {
-            throw new ResourceNotFoundException("{ \n\"status\": 404, \n\"message\": workout with id " + id +" not found.\n}");
+            throw new ResourceNotFoundException("workout with id " + id +" not found");
         }
 
         return ResponseEntity.ok(workoutService.getWorkoutById(id));
@@ -47,7 +47,7 @@ public class WorkoutController {
                                                         @RequestBody WorkoutSession workout) {
 
         if (!workoutSessionRepository.existsById(id)) {
-            throw new ResourceNotFoundException("{ \n\"status\": 404, \n\"message\": workout with id " + id +" not found.\n}");
+            throw new ResourceNotFoundException("workout with id " + id +" not found");
         }
 
         return ResponseEntity.ok(workoutService.updateWorkout(id, workout));
@@ -56,7 +56,7 @@ public class WorkoutController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteWorkout(@PathVariable String id) {
         if (!workoutSessionRepository.existsById(id)) {
-            throw new ResourceNotFoundException("{ \n\"status\": 404, \n\"message\": workout with id " + id +" not found.\n}");
+            throw new ResourceNotFoundException("workout with id " + id +" not found");
         }
 
         workoutService.deleteWorkout(id);

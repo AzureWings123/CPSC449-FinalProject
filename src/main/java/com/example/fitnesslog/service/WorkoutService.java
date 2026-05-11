@@ -1,7 +1,6 @@
 package com.example.fitnesslog.service;
 
 import com.example.fitnesslog.entity.WorkoutSession;
-import com.example.fitnesslog.exception.ForbiddenException;
 import com.example.fitnesslog.exception.ResourceNotFoundException;
 import com.example.fitnesslog.repository.WorkoutSessionRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,11 +43,11 @@ public class WorkoutService {
         WorkoutSession current_workout = workoutRepository.findById(id).orElse(null);
 
         if (current_workout == null) {
-            throw new ResourceNotFoundException("{ \n\"status\": 404, \n\"message\": workout with id" + id +" not found.\n}");
+            throw new ResourceNotFoundException("workout with id" + id +" not found");
         }
 
         if (!current_workout.getUserId().equals(userId)) {
-            throw new IllegalArgumentException("{ \n\"status\": 403, \n\"message\": workout with id" + id +" belongs to another user.\n}");
+            throw new IllegalArgumentException("workout with id" + id +" belongs to another user");
         }
 
         return current_workout;
@@ -61,11 +60,11 @@ public class WorkoutService {
         WorkoutSession current_workout = workoutRepository.findById(id).orElse(null);
 
         if (current_workout == null) {
-            throw new ResourceNotFoundException("{ \n\"status\": 404, \n\"message\": workout with id" + id +" not found.\n}");
+            throw new ResourceNotFoundException("workout with id" + id +" not found");
         }
 
         if (!current_workout.getUserId().equals(userId)) {
-            throw new IllegalArgumentException("{ \n\"status\": 403, \n\"message\": workout with id" + id +" belongs to another user.\n}");
+            throw new IllegalArgumentException("workout with id" + id +" belongs to another user");
         }
 
         current_workout.setExerciseName(updated_workout.getExerciseName());
@@ -84,11 +83,11 @@ public class WorkoutService {
         WorkoutSession current_workout = workoutRepository.findById(id).orElse(null);
 
         if (current_workout == null) {
-            throw new ResourceNotFoundException("{ \n\"status\": 404, \n\"message\": workout with id\" + id +\" not found.\n}");
+            throw new ResourceNotFoundException("workout with id" + id +" not found");
         }
 
         if (!current_workout.getUserId().equals(userId)) {
-            throw new IllegalArgumentException("{ \n\"status\": 403, \n\"message\": workout with id" + id +" belongs to another user.\n}");
+            throw new IllegalArgumentException("workout with id" + id +" belongs to another user.");
         }
 
         workoutRepository.delete(current_workout);
