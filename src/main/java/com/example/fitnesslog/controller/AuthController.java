@@ -6,6 +6,7 @@ import com.example.fitnesslog.dto.RegisterRequest;
 import com.example.fitnesslog.exception.ResourceNotFoundException;
 import com.example.fitnesslog.repository.UserRepository;
 import com.example.fitnesslog.service.AuthService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new NullPointerException("{ \n\"status\": 409, \n\"message\": email is already in use.\n}");
+            throw new DataIntegrityViolationException("{ \n\"status\": 409, \n\"message\": email is already in use.\n}");
         }
 
         AuthResponse response = authService.register(request);

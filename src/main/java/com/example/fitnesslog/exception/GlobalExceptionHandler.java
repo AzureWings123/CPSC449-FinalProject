@@ -1,5 +1,7 @@
 package com.example.fitnesslog.exception;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.http.ResponseEntity;
@@ -15,20 +17,20 @@ public class GlobalExceptionHandler {
                 .body("{ \n\"status\": 400, \n\"message\": field can not be null \n}");
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleWrongUser(IllegalArgumentException e) {
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<String> handleWrongUser(AccessDeniedException e) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(e.getMessage());
     }
 
-    @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<String> handleWrongUser(NullPointerException e) {
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> handleWrongUser(DataIntegrityViolationException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
                 .body(e.getMessage());
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> handleNoInfo(NullPointerException e) {
+    public ResponseEntity<String> handleNoInfo(ResourceNotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(e.getMessage());
     }
