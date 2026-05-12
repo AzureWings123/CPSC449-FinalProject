@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class FitnesslogApplication {
 
 	public static void main(String[] args) {
-		System.out.println(System.getenv("MONGO_URI"));
 		SpringApplication.run(FitnesslogApplication.class, args);
 	}
 

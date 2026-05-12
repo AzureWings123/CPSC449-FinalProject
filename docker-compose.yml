@@ -2,6 +2,8 @@ services:
   mongo:
     image: mongo:8
     container_name: mongo
+    volumes:
+      - db_data:/data/db
 
   fitnesslog:
     build: .
@@ -12,3 +14,6 @@ services:
       - mongo
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/fitnesslog
+
+volumes:
+  db_data:

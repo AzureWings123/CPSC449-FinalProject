@@ -4,6 +4,7 @@ import com.example.fitnesslog.entity.WorkoutSession;
 import com.example.fitnesslog.exception.ForbiddenException;
 import com.example.fitnesslog.exception.ResourceNotFoundException;
 import com.example.fitnesslog.repository.WorkoutSessionRepository;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -44,11 +45,11 @@ public class WorkoutService {
         WorkoutSession current_workout = workoutRepository.findById(id).orElse(null);
 
         if (current_workout == null) {
-            throw new ResourceNotFoundException("Workout with id " + id + " not found");
+            throw new ResourceNotFoundException("Workout with id " + id +" not found.");
         }
 
         if (!current_workout.getUserId().equals(userId)) {
-            throw new ForbiddenException("This workout belongs to another user");
+            throw new ForbiddenException("Workout with id " + id +" belongs to another user.");
         }
 
         return current_workout;
@@ -61,11 +62,11 @@ public class WorkoutService {
         WorkoutSession current_workout = workoutRepository.findById(id).orElse(null);
 
         if (current_workout == null) {
-            throw new ResourceNotFoundException("Workout with id " + id + " not found");
+            throw new ResourceNotFoundException("Workout with id " + id +" not found.");
         }
 
         if (!current_workout.getUserId().equals(userId)) {
-            throw new IllegalArgumentException("Only the owner can update the workout - this workout belongs to another user");
+            throw new ForbiddenException("Workout with id " + id + " belongs to another user.");
         }
 
         current_workout.setExerciseName(updated_workout.getExerciseName());
@@ -84,11 +85,11 @@ public class WorkoutService {
         WorkoutSession current_workout = workoutRepository.findById(id).orElse(null);
 
         if (current_workout == null) {
-            throw new ResourceNotFoundException("Workout with id " + id + " not found");
+            throw new ResourceNotFoundException("Workout with id " + id +" not found.");
         }
 
         if (!current_workout.getUserId().equals(userId)) {
-            throw new ForbiddenException("Only the owner can delete a workout - this workout belongs to another user");
+            throw new ForbiddenException("Workout with id " + id +" belongs to another user.");
         }
 
         workoutRepository.delete(current_workout);
